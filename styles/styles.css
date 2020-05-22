@@ -1,0 +1,29 @@
+#input{
+    width: 36%;
+    margin: auto;
+}
+
+.calculator{
+    margin: auto;
+    width: 400px;
+    background-color: limegreen;
+}
+
+.row{
+    margin: auto;
+    text-align: center;
+    padding: 0;
+}
+
+.button{
+    
+    margin:0;
+    height: 50px;
+    width: 50px;
+    background-color: lightgreen;
+    border: 1px black solid;
+}
+
+.button:hover{
+    cursor: pointer;
+}

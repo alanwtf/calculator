@@ -1,36 +1,72 @@
-let inputArray = [];
-let currentValue = 0;
+let plus = (a, b) => a + b;
 
-const plusBtn = document.querySelector('#plus-btn');
+let minus = (a, b) => a - b;
+
+let multiply = (a, b) => a * b;
+
+let divide = (a, b) => a / b;
+
+let numbersArray = [];
+
+let currentOperation = '';
+
+let nextOperation = '';
+
+const numbers = document.querySelectorAll('.number');
+const operations = document.querySelectorAll('.operation');
 const input = document.querySelector('#input');
+const equals = document.querySelector('#equals');
+const clear = document.querySelector('#clear');
 
-plusBtn.addEventListener('click', function(){
-    if(inputArray.length < 1){
-        notReadyToCalculate();
-    } else {
-        inputArray.push(parseFloat(input.value));
-        input.value = sum();
-        console.log(input.value);
-    }
-});
+numbers.forEach(number => number.addEventListener('click', numberButtonPressed));
 
-function sum(){
-    let lastOne = inputArray.length - 1;
-    let lastToLast = inputArray.length -2;
+operations.forEach(operation => operation.addEventListener(('click'), handleOperation));
 
-    currentValue = (inputArray[lastOne]) + (inputArray[lastToLast]);
-    //console.log(`currentValue = ${currentValue}, arraylast = ${inputArray[lastOne]}, arrayalmostlast=${inputArray[lastToLast]}`)    
-    inputArray.push(currentValue);
-    return currentValue;
+equals.addEventListener('click', handleOperation);
+
+clear.addEventListener('click', function(){
+    input.value = '';
+    arrayNumbers = [];
+    console.table(arrayNumbers);
+} );
+
+function numberButtonPressed(){
+    input.value += this.value;
 }
 
-function notReadyToCalculate(){
-    if(input.value === ''){
-        inputArray.push(0);
-    } else if (isNaN(input.value)){
-        console.log(input.value);
-        input.value = 'Not a Number';
+function displayNumber(num){
+    input.value = num;
+}
+
+
+function handleOperation(){
+    if(numbersArray.length === 0){
+        numbersArray.push(input.value);
+        currentOperation = this.value;
+    } else if (numbersArray.length >= 1 && currentOperation !== 'equals'){
+        console.log(this.value);
+        numbersArray.push(input.value);
+        nextOperation = this.value;
+        let num1 = parseFloat(numbersArray[numbersArray.length - 2]);
+        let num2 = parseFloat(numbersArray[numbersArray.length - 1]);
+        let result = operationes(currentOperation, num1, num2);
+        numbersArray.push(result);
+        displayNumber(result);
+        currentOperation = nextOperation;
     } else {
-        inputArray.push(parseFloat(input.value));
+        currentOperation = this.value;
+    }
+}
+
+function operationes(result, num1, num2){
+    switch(result){
+        case 'plus':
+            return plus(num1, num2);
+        case 'minus':
+            return minus(num1, num2);
+        case 'multiply':
+            return multiply(num1, num2);
+        case 'divide':
+            return divide(num1, num2);
     }
 }
