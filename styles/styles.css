@@ -1,12 +1,19 @@
 #input{
-    width: 36%;
-    margin: auto;
+    text-align: end;
+    font-size: 1em;
+    border: #ddd 1px solid;
+    grid-column: 1/4;
+    padding: .3em 1em;
+    
 }
 
 .calculator{
     margin: auto;
-    width: 400px;
+    width: 350px;
     background-color: limegreen;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 0;
 }
 
 .row{
@@ -19,9 +26,10 @@
     
     margin:0;
     height: 50px;
-    width: 50px;
-    background-color: lightgreen;
-    border: 1px black solid;
+    /*width: 50px;*/
+    background-color:#eee;
+    border: 1px #ddd solid;
+    display: inline-block;
 }
 
 .button:hover{
