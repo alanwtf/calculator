@@ -1,7 +1,8 @@
 #input{
     text-align: end;
     font-size: 1em;
-    border: #ddd 1px solid;
+    border: #ddd solid;
+    border-width: 1px;
     grid-column: 1/4;
     padding: .3em 1em;
     
@@ -14,6 +15,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 0;
+    border: #ddd solid 1px;
 }
 
 .row{
@@ -23,13 +25,19 @@
 }
 
 .button{
-    
+    font-size: 1em;
     margin:0;
     height: 50px;
     /*width: 50px;*/
     background-color:#eee;
     border: 1px #ddd solid;
     display: inline-block;
+    transition: all .07s ease;
+}
+
+.button:active{
+    transform: scale(1.1);
+    background-color: #ddd;
 }
 
 .button:hover{
