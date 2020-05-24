@@ -16,6 +16,7 @@ let nextOperation = '';
 
 let operationLast = false;
 
+const buttons = document.querySelectorAll('.button');
 const numbers = document.querySelectorAll('.number');
 const operations = document.querySelectorAll('.operation');
 const input = document.querySelector('#input');
@@ -26,6 +27,8 @@ document.onload = clearDisplay();
 
 document.addEventListener('keypress', keyboardKeyPressed);
 
+buttons.forEach(button => button.addEventListener('transitionend', removePlaying));
+
 numbers.forEach(number => number.addEventListener('click', numberButtonPressed));
 
 operations.forEach(operation => operation.addEventListener(('click'), handleOperation));
@@ -33,6 +36,11 @@ operations.forEach(operation => operation.addEventListener(('click'), handleOper
 equals.addEventListener('click', handleOperation);
 
 clear.addEventListener('click', clearDisplay);
+
+function removePlaying(e){
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+}
 
 function keyboardKeyPressed(e){
     let numbersArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -58,16 +66,28 @@ function keyboardKeyPressed(e){
                 break;
             case 'enter':
                 document.getElementById('equals').click();
+                break;
+            case '.':
+                document.getElementById('dot').click();
+                break;
         }
     }
 }
 
-function numberButtonPressed(e, value = null){
-    if(operationLast) 
+function numberButtonPressed(e){
+    if(currentOperation === 'equals'){
+        clearDisplay();
+        currentOperation = '';
+    }
+    if(this.value === "." && !this.value.disabled)
+        this.disabled = true;
+    if(operationLast){
         input.value= '';
+        document.getElementById('dot').disabled = false;
+    }
     operationLast = false;
-    input.value += (value != null)? value : this.value;
-
+    input.value += this.value;
+    this.classList.add('playing');
 }
 
 function displayNumber(num){
@@ -76,19 +96,24 @@ function displayNumber(num){
 
 
 function handleOperation(){
+    this.classList.add('playing');
     if(numbersArray.length === 0 && !operationLast){
-        numbersArray.push(input.value);
+        numbersArray.push(parseFloat(input.value));
         currentOperation = this.value;
     } else if (numbersArray.length >= 1 && currentOperation !== 'equals' && !operationLast){
         console.log(this.value);
-        numbersArray.push(input.value);
+        numbersArray.push(parseFloat(input.value));
         nextOperation = this.value;
         let num1 = parseFloat(numbersArray[numbersArray.length - 2]);
         let num2 = parseFloat(numbersArray[numbersArray.length - 1]);
         let result = operationes(currentOperation, num1, num2);
         if(isNaN(result)){
+            alert('ERROR');
             clearDisplay();
             return;
+        }
+        if(result.toString().length > 25){
+            result = parseFloat(result.toString().substring(0,24));
         }
         numbersArray.push(result);
         displayNumber(result);
@@ -96,15 +121,14 @@ function handleOperation(){
         operationLast = true;
     } else {
         currentOperation = this.value;
-        
     }
     operationLast = true;
 }
 
 function clearDisplay(){
     input.value = '';
-    arrayNumbers = [];
-    console.table(arrayNumbers);
+    numbersArray = [];
+    console.table(numbersArray);
 }
 
 function operationes(result, num1, num2){

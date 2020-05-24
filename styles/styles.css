@@ -11,7 +11,7 @@
 .calculator{
     margin: auto;
     width: 350px;
-    background-color: limegreen;
+    background-color:rgba(41, 40, 40, 0.2);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 0;
@@ -32,12 +32,12 @@
     background-color:#eee;
     border: 1px #ddd solid;
     display: inline-block;
-    transition: all .07s ease;
+    transition: all 0.2s ease;
 }
 
-.button:active{
-    transform: scale(1.1);
-    background-color: #ddd;
+.playing{
+    transform: scale(0.8);
+    background-color: rgba(41, 40, 40, 0.2);
 }
 
 .button:hover{
